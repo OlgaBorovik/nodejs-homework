@@ -1,4 +1,17 @@
-const {listContacts, addContact, removeContact, getContactById} = require ("./contacts.js")
+const { listContacts, addContact, removeContact, getContactById } = require("./contacts.js")
+const { Command} = require("commander")
+
+const program = new Command();
+program
+  .option("-a, --action <type>", "choose action")
+  .option("-i, --id <type>", "user id")
+  .option("-n, --name <type>", "user name")
+  .option("-e, --email <type>", "user email")
+  .option("-p, --phone <type>", "user phone");
+
+program.parse(process.argv);
+
+const argv = program.opts();
 
 const invokeAction = async ({action, id, name, email, phone}) => {
     switch (action) {
@@ -11,25 +24,20 @@ const invokeAction = async ({action, id, name, email, phone}) => {
             break;
         case "remove":
             await removeContact(id)
-            console.log("removed")
             break;
-        case "getById":
+        case "get":
             const contact = await getContactById(id)
             if (!contact) {
                 throw new Error (`Contact with id: ${id} not found`)
             }
             console.log(contact)
             break;
-        
+         default:
+            console.warn("\x1B[31m Unknown action type!");
     }
 }
-// invokeAction({ action: "list" })
-// invokeAction({ action: "getById", id: "5" })
-// invokeAction({action: "remove", id: '3x1'})
+
+invokeAction(argv)
 
 
-//     "name": "Alex Goward",
-//     "email": "Donec.elementum@scelerisque.net",
-//     "phone": "(748) 206-7777"
 
-invokeAction({action:"add", name: "Masha", email: "2@mail.com", phone:"222-22-22"})
