@@ -2,20 +2,18 @@ const fs = require("fs/promises")
 const path = require("path")
 const { nanoid } = require("nanoid")
 
-//  * Розкоментуйте і запиши значення*/
   const contactsPath = path.resolve(__dirname, "db", "contacts.json") ;
  
-// Функция чтения из contacts.json  
 async function readContacts() {
   const data = await fs.readFile(contactsPath)
   const contacts = JSON.parse(data);
   return contacts
 }  
-// Функция записи в contacts.json
+
 async function writeContacts(contacts) {
   await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2))
 }
-// TODO: задокументувати кожну функцію
+
 async function listContacts() {
   const contacts = readContacts()
   return contacts
@@ -43,9 +41,8 @@ async function addContact( name, email, phone ) {
   const newContact = { id, name, email, phone }
   const contacts = await readContacts()
   contacts.push(newContact)
-  console.table(contacts)
   await writeContacts(contacts)
-  
+  return newContact
 }
 
 

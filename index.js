@@ -20,7 +20,7 @@ const invokeAction = async ({action, id, name, email, phone}) => {
             console.table(contacts);
             break;
         case "add":
-            await addContact(name, email, phone)
+            console.log(await addContact(name, email, phone))
             break;
         case "remove":
             await removeContact(id)
@@ -28,7 +28,7 @@ const invokeAction = async ({action, id, name, email, phone}) => {
         case "get":
             const contact = await getContactById(id)
             if (!contact) {
-                throw new Error (`Contact with id: ${id} not found`)
+               console.log(`Contact with id: ${id} not found`)
             }
             console.log(contact)
             break;
